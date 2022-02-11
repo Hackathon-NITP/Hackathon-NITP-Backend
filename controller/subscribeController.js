@@ -1,5 +1,5 @@
 
-const {sendWelcomeEmail, sendNotificationEmail,  sendNotificationEmailIfCampExists} = require('../db/email')
+const {sendWelcomeEmail, sendNotificationEmail,  sendNotificationEmailIfCampExists} = require('../utils/email')
 const SubscriberData = require('../models/subscribeModel')
 const CampData = require('../models/campModel')
 
