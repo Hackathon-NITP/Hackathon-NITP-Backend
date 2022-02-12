@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(cors());
 app.use(morgan('dev'));
 
-app.use("/documents", express.static(path.join(__dirname + "/Documents")));
+app.use('/documents', express.static(path.join(__dirname + '/Documents')));
 
 app.use('/api/user', userRouter);
 app.use('/api/camp', campRouter);

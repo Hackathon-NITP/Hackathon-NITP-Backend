@@ -134,7 +134,7 @@ exports.PostData = async (req, res, next) => {
 		const pincode = req.body.pincode;
 		const dateOfCamp = req.body.date;
 		await campData.save();
-		console.log(campData);
+		// console.log(campData);
 		const subscribers = await Subscriber.findByCredentials(pincode);
 
 		subscribers.map(subscriber => {
@@ -196,7 +196,6 @@ exports.GetCampData = async (req, res, next) => {
 
 		res.send(
 			campData.map((data, index) => {
-				console.log('Lund', data);
 				return {
 					...data._doc,
 					availDoseOne: data.available_capacity_dose1,
@@ -206,7 +205,7 @@ exports.GetCampData = async (req, res, next) => {
 			})
 		);
 	} catch (e) {
-		console.log(e);
+		// console.log(e);
 		res.status(500).send(e.message);
 	}
 };

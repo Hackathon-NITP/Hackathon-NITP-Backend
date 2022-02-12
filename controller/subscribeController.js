@@ -1,33 +1,32 @@
-
-const {sendWelcomeEmail, sendNotificationEmail,  sendNotificationEmailIfCampExists} = require('../utils/email')
-const SubscriberData = require('../models/subscribeModel')
-const CampData = require('../models/campModel')
+const {
+	sendWelcomeEmail,
+	sendNotificationEmailIfCampExists
+} = require('../utils/email');
+const Subscriber = require('../models/subscribeModel');
+const Camp = require('../models/campModel');
 
 const Subscribe = async (req, res) => {
-    const subscriber = new SubscriberData(req.body)
-    await subscriber.save().then(() => {
-       res.send(subscriber)
-       console.log(subscriber)
-       const pincode = subscriber.pincode
+	try {
+		const subscriber = new Subscriber(req.body);
+		await subscriber.save();
 
-       sendWelcomeEmail(subscriber.name, subscriber.email)  
+		res.status(200).send(subscriber);
+		const pincode = subscriber.pincode;
 
-       CampData.findByCredentialsOfPincode(pincode).then((camps) => {
-        
-        if(!camps) {
-            return 
-        }
-        console.log(camps)
-        sendNotificationEmailIfCampExists(subscriber.name, subscriber.email)
-        console.log('Notification Mail Sent')
-    })
+		sendWelcomeEmail(subscriber.name, subscriber.email);
 
-    }).catch((e) => {
-        console.log(e)
-        res.send(e.message).status(401)
-    })
-}
+		Camp.findByCredentialsOfPincode(pincode).then(camps => {
+			if (!camps) {
+				return;
+			}
+			sendNotificationEmailIfCampExists(subscriber.name, subscriber.email);
+			// console.log('Notification Mail Sent');
+		});
+	} catch (error) {
+		res.status(400).send(e.message);
+	}
+};
 
 module.exports = {
-    Subscribe
-}
+	Subscribe
+};
