@@ -1,9 +1,29 @@
-const User = require("../models/userModel");
 const Document = require("../models/documentModel");
+const User = require("../models/userModel");
 
-exports.uploadDoc = async (req, res, next) => {
+const uploadDoc = async (req, res, next) => {
   try {
-    // yet to implement
+    const documentDetails = new Document({
+      name: req.body.name,
+      link: `${req.protocol}://${req.get('host')}/documents/${req.file.filename.replace(/ /g, "_")}`,
+      type: req.body.type
+    });
+    const document = await documentDetails.save()
+
+    const user = await User.findById(req.user.id);
+    user.documents.push(document);
+    const userDocsUpdate = await user.save();
+
+    if(document && userDocsUpdate){ 
+    res.status(200).json({
+      message: "Document upload successful for the user",
+    });
+    }else{
+      res.status(400).json({
+        message: "Document upload failed",
+      });
+    }
+    
   } catch (error) {
     res.status(400).json({
       status: "fail",
@@ -12,7 +32,7 @@ exports.uploadDoc = async (req, res, next) => {
   }
 };
 
-exports.getAll = async (req, res, next) => {
+const getAll = async (req, res, next) => {
   try {
     const id = req.user.id;
     const user = await User.findById(id).populate("documents");
@@ -30,7 +50,7 @@ exports.getAll = async (req, res, next) => {
   }
 };
 
-exports.getDoc = async (req, res, next) => {
+const getDoc = async (req, res, next) => {
   try {
     const id = req.params.id;
     const doc = await Document.findById(id);
@@ -49,14 +69,14 @@ exports.getDoc = async (req, res, next) => {
   }
 };
 
-exports.deleteDoc = async (req, res, next) => {
+const deleteDoc = async (req, res, next) => {
   try {
     const id = req.params.id;
     const doc = await Document.findByIdAndDelete(id);
 
     if (!doc) throw new Error("Couldn't find the document");
 
-    res.status(204).json({
+    res.status(200).json({
       status: "success",
     });
   } catch (error) {
@@ -67,7 +87,7 @@ exports.deleteDoc = async (req, res, next) => {
   }
 };
 
-exports.updateDoc = async (req, res, next) => {
+const updateDoc = async (req, res, next) => {
   try {
     const id = req.params.id;
     const doc = await Document.findByIdAndUpdate(id, req.body, {
@@ -77,7 +97,7 @@ exports.updateDoc = async (req, res, next) => {
 
     if (!doc) throw new Error("Couldn't find the document");
 
-    res.status(204).json({
+    res.status(200).json({
       status: "success",
     });
   } catch (error) {
@@ -87,3 +107,13 @@ exports.updateDoc = async (req, res, next) => {
     });
   }
 };
+
+
+
+module.exports ={
+  uploadDoc,
+  getAll,
+  getDoc,
+  deleteDoc,
+  updateDoc
+}

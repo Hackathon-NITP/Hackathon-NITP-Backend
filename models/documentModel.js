@@ -3,13 +3,16 @@ const mongoose = require('mongoose');
 const documentSchema = new mongoose.Schema(
 	{
 		link: {
-			type: string,
+			type: String,
 			required: true
 		},
 		name: {
-			type: string,
+			type: String,
 			required: true,
 			unique: true
+		},
+		type:{
+			type: String
 		}
 	},
 	{

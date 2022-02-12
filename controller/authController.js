@@ -7,8 +7,7 @@ exports.register = async (req, res, next) => {
 		const user = new User({
 			username,
 			email,
-			password,
-			passwordConfirm
+			password
 		});
 
 		await user.save();
