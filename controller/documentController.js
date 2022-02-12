@@ -4,26 +4,27 @@ const User = require("../models/userModel");
 const uploadDoc = async (req, res, next) => {
   try {
     const documentDetails = new Document({
-      name: req.body.name,
-      link: `${req.protocol}://${req.get('host')}/documents/${req.file.filename.replace(/ /g, "_")}`,
-      type: req.body.type
+      name: req.headers.name,
+      link: `${req.protocol}://${req.get(
+        "host"
+      )}/documents/${req.file.filename.replace(/ /g, "_")}`,
+      type: req.headers.type,
     });
-    const document = await documentDetails.save()
+    const document = await documentDetails.save();
 
     const user = await User.findById(req.user.id);
     user.documents.push(document);
     const userDocsUpdate = await user.save();
 
-    if(document && userDocsUpdate){ 
-    res.status(200).json({
-      message: "Document upload successful for the user",
-    });
-    }else{
+    if (document && userDocsUpdate) {
+      res.status(200).json({
+        message: "Document upload successful for the user",
+      });
+    } else {
       res.status(400).json({
         message: "Document upload failed",
       });
     }
-    
   } catch (error) {
     res.status(400).json({
       status: "fail",
@@ -35,7 +36,9 @@ const uploadDoc = async (req, res, next) => {
 const getAll = async (req, res, next) => {
   try {
     const id = req.user.id;
+    console.log("ujjwal id", id);
     const user = await User.findById(id).populate("documents");
+    console.log("joshi ", user);
     const docs = user.documents;
 
     res.status(200).json({
@@ -108,12 +111,10 @@ const updateDoc = async (req, res, next) => {
   }
 };
 
-
-
-module.exports ={
+module.exports = {
   uploadDoc,
   getAll,
   getDoc,
   deleteDoc,
-  updateDoc
-}
+  updateDoc,
+};
