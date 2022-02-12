@@ -28,6 +28,10 @@ const userSchema = new mongoose.Schema(
         ref: "Document",
       },
     ],
+    vaccinationDetails: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "VaccineDetails"
+    }],
     passwordChangedAt: Date,
     passwordResetToken: String,
     passwordResetExpires: Date,

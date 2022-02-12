@@ -10,6 +10,7 @@ const campRouter = require('./routes/campRouter');
 const subscribeRouter = require('./routes/subscribeRouter');
 const userRouter = require('./routes/userRouter');
 const documentRouter = require('./routes/documentRouter');
+const vaccineRouter = require('./routes/vaccineRouter');
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.use('/documents', express.static(path.join(__dirname + '/Documents')));
 app.use('/api/user', userRouter);
 app.use('/api/camp', campRouter);
 app.use('/api/subscribe', subscribeRouter);
+app.use('/api/vaccine', vaccineRouter);
 app.use('/', documentRouter);
 
 const port = process.env.PORT || 8000;
