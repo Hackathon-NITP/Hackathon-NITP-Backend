@@ -1,13 +1,18 @@
 const User = require('../models/userModel');
 const jwt = require('jsonwebtoken');
+const Vaccine = require('../models/vaccineModel');
 
 exports.register = async (req, res, next) => {
 	try {
-		const { username, email, password, passwordConfirm } = req.body;
+		const { username, email, password } = req.body;
+		const vaccine = await Vaccine.find({});
+		console.log(vaccine);
+		
 		const user = new User({
 			username,
 			email,
-			password
+			password,
+			vaccinationDetails: vaccine
 		});
 
 		await user.save();
