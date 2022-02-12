@@ -76,11 +76,13 @@ const deleteDoc = async (req, res, next) => {
   try {
     const id = req.params.id;
     const doc = await Document.findByIdAndDelete(id);
+    const user = await User.findById(req.user.id).populate("documents");
 
     if (!doc) throw new Error("Couldn't find the document");
 
     res.status(200).json({
       status: "success",
+      doc: user.documents,
     });
   } catch (error) {
     res.status(400).json({
