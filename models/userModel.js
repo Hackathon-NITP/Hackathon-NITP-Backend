@@ -29,8 +29,12 @@ const userSchema = new mongoose.Schema(
       },
     ],
     vaccinationDetails: [{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "VaccineDetails"
+      name: String,
+      doses: [{
+        doseNumber: Number,
+        date: String,
+        isMarked: Boolean,
+      }]
     }],
     passwordChangedAt: Date,
     passwordResetToken: String,

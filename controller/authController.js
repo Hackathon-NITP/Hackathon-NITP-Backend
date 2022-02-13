@@ -12,9 +12,24 @@ exports.register = async (req, res, next) => {
 			username,
 			email,
 			password,
-			vaccinationDetails: vaccine
 		});
 
+		
+		for(var i=0; i<vaccine.length; i++) {
+			var doses = [];
+			for(var j=0; j<vaccine[i].totalDoses; j++) {
+				doses.push({
+					doseNumber: j+1,
+					date: null,
+					isMarked: false
+				})
+			}
+
+			user.vaccinationDetails.push({
+				name: vaccine[i].name,
+				doses
+			});
+		}
 		await user.save();
 		const token = await jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
 			expiresIn: '2d'

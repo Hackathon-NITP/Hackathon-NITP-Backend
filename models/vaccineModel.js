@@ -6,14 +6,9 @@ const vaccinationSchema = new mongoose.Schema(
         type:String,
         required:true,
     },
-    doses:{
-        type:Array,
-        doseNumber:Number,
-		date:String,
-		isMarked:{
-            type:Boolean,
-            default:false
-        }
+    totalDoses: {
+      type: Number,
+      required: true,
     }
   },
   {
