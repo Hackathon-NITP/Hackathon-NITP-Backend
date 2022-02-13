@@ -27,6 +27,9 @@ app.use('/api/camp', campRouter);
 app.use('/api/subscribe', subscribeRouter);
 app.use('/api/vaccine', vaccineRouter);
 app.use('/', documentRouter);
+app.get('/', (req, res) => {
+	res.send('Backend is running successfully');
+});
 
 const Vacine = require('./models/vaccineModel');
 // const User = require('../models/userModel');

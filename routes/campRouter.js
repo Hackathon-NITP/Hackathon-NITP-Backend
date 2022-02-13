@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const campController = require('../controller/CampController');
+const campController = require('../controller/campController');
 
 // Send OTP
 router.post('/sendotp', campController.SendOTP);
