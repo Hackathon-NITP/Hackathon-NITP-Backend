@@ -24,6 +24,8 @@ Go to the project directory
 
 ```
 
+Open this link for env https://docs.google.com/document/d/1qosGBmsXftOloxc_PrkD4EO1A_q2d9BGdmjWdRORiD0/edit?usp=sharing
+
 Install dependencies
 
 ```bash

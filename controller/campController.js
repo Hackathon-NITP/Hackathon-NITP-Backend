@@ -83,18 +83,35 @@ if (
 
 exports.SendOTP = async (req, res, next) => {
   try {
+    console.log("number", req.body.phoneNumber);
     const data = await client.verify
       .services(process.env.SERVICE_ID)
       .verifications.create({
         to: `+91${req.body.phoneNumber}`,
         channel: "sms",
       });
-
+    cosnole.log("ujjwal ", data);
     res.status(200).send(data);
   } catch (error) {
+    console.log("ujjwal error", error);
     res.status(400).send(error);
   }
 };
+
+// exports.SendOTP = async (req, res, next) => {
+//   try {
+//     const data = await client.verify
+//       .services(process.env.SERVICE_ID)
+//       .verifications.create({
+//         to: `+91${req.body.phoneNumber}`,
+//         channel: "sms",
+//       });
+
+//     res.status(200).send(data);
+//   } catch (error) {
+//     res.status(400).send(error);
+//   }
+// };
 
 exports.VerifyOTP = async (req, res, next) => {
   try {
